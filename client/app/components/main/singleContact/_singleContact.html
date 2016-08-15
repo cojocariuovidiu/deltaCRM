@@ -1,0 +1,53 @@
+<div class="page-header">
+	<h3>{{myContact.first}} {{myContact.last}}</h3>
+</div>
+<div class="row">
+	<div class="col-sm-4">
+		<h4>{{myContact.first}} {{myContact.last}}</h4>
+		{{myContact.title}} at {{myContact.account.name}}<br /><br />
+		<address>
+  			<strong>{{myContact.account.name}}</strong><br />
+  			<span ng-show="myContact.street1">{{myContact.street1}}<br /></span>
+  			<span ng-show="myContact.street2">{{myContact.street2}}<br /></span>
+  			<span ng-show="myContact.city">{{myContact.city}}, </span><span ng-show="myContact.state">{{myContact.state}} </span><span ng-show="myContact.zip">{{myContact.zip}}<br /></span>
+  			<span ng-show="myContact.phone"><abbr title="Phone">Phone:</abbr> {{myContact.phone}}<br /></span>
+  			<span ng-show="myContact.mobile"><abbr title="Mobile">Mobile:</abbr> {{myContact.mobile}}<br /></span>
+  			<span ng-show="myContact.fax"><abbr title="Fax">Fax:</abbr> {{myContact.fax}}<br /></span><br />
+
+  			<span ng-show="myContact.email"><abbr title="Email">E-mail:</abbr> {{myContact.email}}<br /></span>
+  			<span ng-show="myContact.altEmail"><abbr title="Alternate E-mail">Alternate E-mail:</abbr> {{myContact.altEmail}}<br /></span>
+
+		</address>
+		<h4>Contact Summary</h4>
+		<p>Assigned to: {{myContact.assignedTo.first}} {{myContact.assignedTo.last}}</p>
+
+	</div>
+	<div class="col-sm-8">
+		<uib-accordion close-others="oneAtATime">
+			<div uib-accordion-group class="panel-default" is-open="status.NotesOpen">
+      			<uib-accordion-heading>
+        			<strong>Notes</strong> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.NotesOpen, 'glyphicon-chevron-right': !status.NotesOpen}"></i>
+      			</uib-accordion-heading>
+      			This is just some content to illustrate fancy headings.
+    		</div>
+			<div uib-accordion-group class="panel-default" is-open="status.TasksOpen">
+      			<uib-accordion-heading>
+        			<strong>Tasks</strong> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': TasksOpen, 'glyphicon-chevron-right': !TasksOpen}"></i>
+      			</uib-accordion-heading>
+      			This is just some content to illustrate fancy headings.
+    		</div>
+			<div uib-accordion-group class="panel-default" is-open="status.OpportunitiesOpen">
+      			<uib-accordion-heading>
+        			<strong>Opportunities</strong> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.OpportunitiesOpen, 'glyphicon-chevron-right': !status.OpportunitiesOpen}"></i>
+      			</uib-accordion-heading>
+      			This is just some content to illustrate fancy headings.
+    		</div>
+			<div uib-accordion-group class="panel-default" is-open="status.filesOpen">
+      			<uib-accordion-heading>
+        			<strong>Files</strong> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': filesOpen, 'glyphicon-chevron-right': !filesOpen}"></i>
+      			</uib-accordion-heading>
+      			This is just some content to illustrate fancy headings.
+    		</div>
+		</uib-accordion>
+	</div>
+</div>

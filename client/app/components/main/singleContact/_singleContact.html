@@ -20,7 +20,6 @@
 		</address>
 		<h4>Contact Summary</h4>
 		<p>Assigned to: {{myContact.assignedTo.first}} {{myContact.assignedTo.last}}</p>
-
 	</div>
 	<div class="col-sm-8">
 		<uib-accordion close-others="oneAtATime">
@@ -28,7 +27,23 @@
       			<uib-accordion-heading>
         			<strong>Notes</strong> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.NotesOpen, 'glyphicon-chevron-right': !status.NotesOpen}"></i>
       			</uib-accordion-heading>
-      			This is just some content to illustrate fancy headings.
+            <div class="page-header">
+              <form class="form-inline">
+                <div class="form-group">
+                  <label for="note">Note: </label>
+                  <input type="text" class="form-control" ng-model="text" placeholder="Add a new note..." />
+                  <button type="submit" class="btn btn-primary" ng-click="addNote(text)">Add</button>
+                </div>
+              </form>
+            </div>
+      			<ul>
+              <li ng-repeat="note in myContact.notes | orderBy:'-added' | limitTo:myLimit:myStart">{{note.text}} - added by {{note.username}} on {{note.added | date}} @ {{note.added | date: "h:mm:ss a" }}</li>
+            </ul>
+            <!--Notes Pagination -->
+            <nav aria-label="Page navigation">
+                <ul uib-pagination total-items="status.totalItems" max-size="5" boundary-link-numbers="true" rotate="false" items-per-page="myLimit" ng-model="status.currentPage" ng-change="paginateNotes()"></ul>
+            </nav>
+            <!--Notes Pagination -->
     		</div>
 			<div uib-accordion-group class="panel-default" is-open="status.TasksOpen">
       			<uib-accordion-heading>

@@ -18,7 +18,8 @@ var ContactSchema = new mongoose.Schema({
 	city: String,
 	state: String,
 	zip: String,
-	account: { type: mongoose.Schema.Types.ObjectId, ref: 'Account' }
+	account: { type: mongoose.Schema.Types.ObjectId, ref: 'Account' },
+	notes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Note'}]
 },{strict: true});
 
 mongoose.model('Contact', ContactSchema);

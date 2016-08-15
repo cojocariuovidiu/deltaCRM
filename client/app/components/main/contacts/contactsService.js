@@ -1,6 +1,7 @@
 app.factory('contact', ['$http', function ($http) {
 	var contact = {
 		contacts: [],
+		myContact: {},
 		skip: 0,
 		limit: 5,
 		count: 0
@@ -36,6 +37,7 @@ app.factory('contact', ['$http', function ($http) {
 			});
 	};
 
+
 	contact.updateContact = function (contact) {
 		return $http.put('/contacts/' + contact._id + '?token='+login.getToken(), contact)
 			.success(function (data) {
@@ -62,6 +64,15 @@ app.factory('contact', ['$http', function ($http) {
 		return $http.get('/contacts/' + id + '?token='+login.getToken())
 			.then(function (res) {
 				return res.data;
+			});
+	};
+
+	contact.addNote = function (id, note) {
+		return $http.post('/contacts/'+id+'/notes?token='+login.getToken(), note)
+			.success(function (data) {
+				contact.get(id).then(function (con) {
+					angular.copy(con, contact.myContact);
+				});
 			});
 	};
 

@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Account = mongoose.model('Account');
 var Contact = mongoose.model('Contact');
+var Note = mongoose.model('Note');
 
 /* GET (RETRIEVE) all contacts */
 router.get('/', function (req, res, next) {
@@ -48,7 +49,12 @@ router.get('/:contact', function (req, res, next) {
 			req.contact.populate('account', function (err, contact) {
 				if (err) { return next(err); }
 
-				res.json(contact);
+				req.contact.populate('notes', function (err, contact) {
+					if (err) { return next(err); }
+
+					res.json(contact);
+				});
+
 			});
 		});
 
@@ -168,6 +174,25 @@ router.put('/:contact', function (req, res, next) {
 			});
 		});
 	});
+});
+
+
+/* POST (CREATE) a note */
+router.post('/:contact/notes', function (req, res, next) {
+
+	var note = new Note(req.body);
+	note.contact = req.contact;
+
+	note.save(function (err, note) {
+		if (err) { return next(err); }
+
+			req.contact.notes.push(note);
+			req.contact.save(function (err, contact) {
+			if (err) { return next(err); }
+				res.json(note);
+			});
+	});
+
 });
 
 module.exports = router;

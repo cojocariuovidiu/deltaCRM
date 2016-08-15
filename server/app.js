@@ -11,6 +11,7 @@ var passport = require('passport');
 require('./models/Users');
 require('./models/Accounts');
 require('./models/Contacts');
+require('./models/Notes');
 
 require('./config/passport');
 

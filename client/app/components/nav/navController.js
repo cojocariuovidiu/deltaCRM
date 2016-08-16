@@ -1,4 +1,4 @@
-app.controller('navCtrl', ['$scope', '$state', 'login', function ($scope, $state, login) {
+app.controller('navCtrl', ['$scope', '$state', 'login', 'user', function ($scope, $state, login, user) {
 	$scope.isCollapsed = true;
 
 	$scope.collapse = function () {
@@ -42,7 +42,18 @@ app.controller('navCtrl', ['$scope', '$state', 'login', function ($scope, $state
 		}
 	};
 	$scope.logOut = function () {
-		login.logOut();
-		$state.go('login');
+	/* Add to log of history */
+		var currentUser = login.currentUser();
+		var history = {};
+		user.getIdByUsername(currentUser.userId).then(function (id) {
+			history = {
+				message: 'signed out',
+			};
+			user.addToHistory(id, history);
+			login.logOut();
+			$state.go('login');
+		});
+	/* Add to log of history */
+		
 	};
 }]);

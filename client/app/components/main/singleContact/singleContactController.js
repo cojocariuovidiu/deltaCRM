@@ -1,4 +1,4 @@
-app.controller('singleContactCtrl', ['$scope', 'myContact', 'contact', 'login', function ($scope, myContact, contact, login) {
+app.controller('singleContactCtrl', ['$scope', 'myContact', 'contact', 'login', 'user', function ($scope, myContact, contact, login, user) {
 	$scope.myContact = myContact;
 	$scope.currentUser = login.currentUser();
 
@@ -8,11 +8,21 @@ app.controller('singleContactCtrl', ['$scope', 'myContact', 'contact', 'login', 
 			username: $scope.currentUser.username
 		};
 
+
 		contact.addNote($scope.myContact._id, myNote);
+/* Add to log of history */
+		var history = {};
+		user.getIdByUsername($scope.currentUser.userId).then(function (id) {
+			history = {
+				message: 'Added note: '+myNote.text+' to contact: '+myContact.first+' '+myContact.last,
+			};
+			user.addToHistory(id, history);
+		});
+/*Add to log of history */
 		$scope.myContact = contact.myContact;
 		$scope.status.currentPage = 1;
 		$scope.paginateNotes();
-		$scope.text = '';
+		$scope.status.text = '';
 	};
 
 /* Notes Pagination */
@@ -28,6 +38,7 @@ app.controller('singleContactCtrl', ['$scope', 'myContact', 'contact', 'login', 
 /* Accordian Section */
 	$scope.oneAtATime = true;
   	$scope.status = {
+  		text: '',
   		currentPage: 1,
   		totalItems: $scope.myContact.notes.length,
   		NotesOpen: true,

@@ -12,6 +12,7 @@ require('./models/Users');
 require('./models/Accounts');
 require('./models/Contacts');
 require('./models/Notes');
+require('./models/History');
 
 require('./config/passport');
 
@@ -20,6 +21,7 @@ mongoose.connect('mongodb://localhost/deltaCRM');
 var users = require('./routes/users');
 var accounts = require('./routes/accounts');
 var contacts = require('./routes/contacts');
+var histories = require('./routes/history');
 
 var app = express();
 
@@ -40,6 +42,7 @@ app.use(passport.initialize());
 app.use('/users', users);
 app.use('/accounts', accounts);
 app.use('/contacts', contacts);
+app.use('/history', histories);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

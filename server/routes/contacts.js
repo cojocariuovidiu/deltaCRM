@@ -74,12 +74,6 @@ router.delete('/:contact', function (req, res, next) {
 			console.log('Account='+req.contact.account);
 			console.log('Contact='+req.contact._id);
 
-		/*Account.update(
-				{ _id: req.contact.account._id},
-				{ $pull: { contacts: new mongoose.Types.ObjectId(req.contact._id) } },
-				function (err, contact) {
-					if (err) { return next(err); }
-				});*/
 
 		var accountId = new mongoose.Types.ObjectId(req.contact.account._id);
 		var contactId = new mongoose.Types.ObjectId(req.contact._id);

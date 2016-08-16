@@ -7,6 +7,7 @@ var jwt = require('jsonwebtoken');
 var http = require('http');
 
 var User = mongoose.model('User');
+var History = mongoose.model('History');
 
 // Middleware to check if user is authenticated
 var auth = function (req, res, next) {
@@ -120,9 +121,57 @@ router.param('user', function (req, res, next, id) {
 	});
 });
 
+/* PRELOAD "User" Object by username*/
+router.param('username', function (req, res, next, username) {
+	var query = User.find({userId: username});
+
+	query.exec(function (err, username) {
+		if (err) { return next(err); }
+		if (!username) { return next(new Error('can\'t find user')); }
+
+		req.username = username;
+		return next();
+	});
+});
+
+/* GET (RETRIEVE) a single user by username */
+router.get('/:username', auth, admin, function (req, res, next) {
+
+	res.json(req.username);
+
+});
+
+
 /* GET (RETRIEVE) a single user */
 router.get('/:user', auth, admin, function (req, res, next) {
-	res.json(req.user);
+
+
+	req.user.populate('history', function(err, user) {
+		if (err) { return next(err); }
+
+		res.json(req.user);
+	});
+});
+
+
+
+/* POST (CREATE) a history */
+router.post('/:user/history', auth, function (req, res, next) {
+
+	var history = new History(req.body);
+	history.userId = req.user;
+
+	history.save(function (err, history) {
+		if (err) { return next(err); }
+
+		req.user.history.push(history);
+
+		req.user.save(function (err, user) {
+			if (err) { return next(err); }
+				res.json(history);
+			});
+	});
+
 });
 
 /**************************/

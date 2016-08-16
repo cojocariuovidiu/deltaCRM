@@ -10,7 +10,8 @@ var UserSchema = new mongoose.Schema({
 	company: String,
 	isAdmin: Boolean,
 	hash: String,
-	salt: String
+	salt: String,
+	history: [{ type: mongoose.Schema.Types.ObjectId, ref: 'History' }]
 });
 
 UserSchema.methods.setPassword = function (password) {

@@ -9,6 +9,14 @@ app.config([
 				url: '/dashboard',
 				templateUrl: '/app/components/dashboard/_dashboard.html',
 				controller: 'dashboardCtrl',
+				resolve: {
+					userHistoryPromise: ['login', 'user', function (login, user) {
+						var currentUser = login.currentUser();
+						user.getIdByUsername(currentUser.userId).then(function (id) {
+							return user.getHistory(id);
+						});
+					}]
+				},
 				onEnter: [
 					'$state',
 					'login',

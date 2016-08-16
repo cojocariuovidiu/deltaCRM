@@ -21,10 +21,21 @@ app.config([
 				onEnter: [
 					'$state',
 					'login',
-					function ($state, login) {
+					'myContact',
+					'user',
+					function ($state, login, myContact, user) {
 						if (!login.isLoggedIn()) {
 							$state.go('login');
 						}
+
+						var currentUser = login.currentUser();
+						var history = {};
+						user.getIdByUsername(currentUser.userId).then(function (id) {
+							history = {
+								message: 'viewed contact '+myContact.first+' '+myContact.last,
+							};
+							user.addToHistory(id, history);
+						});
 					}]
 			});
 	}
